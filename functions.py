@@ -48,7 +48,7 @@ def do_deep_learning(model, trainloader, validationloader, criterion, optimizer,
     print_every = print_every
     steps = 0
 
-    if use_gpu:
+    if use_gpu and torch.cuda.is_available():
         device=torch.device('cuda')
     else:
         device=torch.device('cpu')
@@ -126,7 +126,7 @@ def predict(image_path, model, checkpoint_directory, topk=5, use_gpu=True):
     
     #convert model to cuda for gpu usage
     if use_gpu:
-        device=torch.device('cuda')
+        device=torch.device('cuda') and torch.cuda.is_available()
     else:
         device=torch.device('cpu')
         
