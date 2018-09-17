@@ -74,27 +74,27 @@ def do_deep_learning(model, trainloader, validationloader, criterion, optimizer,
                 valid_accuracy, valid_loss = check_accuracy(validationloader, model, criterion, use_gpu)
                 print("Epoch: {}/{}... ".format(e+1, epochs),
                       "Loss: {:.4f}... ".format(running_loss/print_every),
-					  "Valid loss: {:.4f}... ".format(valid_loss)
+                      "Valid loss: {:.4f}... ".format(valid_loss),
                       "Valid accuracy: {:.4f}".format(valid_accuracy))
 
                 running_loss = 0
 
 #Define function for an accuracy check
 def check_accuracy(loader, model, criterion, use_gpu):   
-    if use_gpu:
+    if use_gpu and torch.cuda.is_available():
         device=torch.device('cuda')
     else:
         device=torch.device('cpu')
     correct = 0
     total = 0
-	running_loss = 0
+    running_loss = 0
     with torch.no_grad():
         for data in loader:
             images, labels = data
             labels = labels.to(device)
             images = images.to(device)
             outputs = model(images)
-			loss = criterion(outputs, labels)
+            loss = criterion(outputs, labels)
             running_loss += loss.item()
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
@@ -129,8 +129,8 @@ def define_transform_operations():
 def predict(image_path, model, checkpoint_directory, topk=5, use_gpu=True):
     
     #convert model to cuda for gpu usage
-    if use_gpu:
-        device=torch.device('cuda') and torch.cuda.is_available()
+    if use_gpu and torch.cuda.is_available():
+        device=torch.device('cuda')
     else:
         device=torch.device('cpu')
         
