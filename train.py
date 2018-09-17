@@ -47,10 +47,9 @@ def main():
     
     #check the accuracy of the validation set and the testing set
     print("checking the accuracy of the validation and training sets...")
-    accuracy = check_accuracy(data_loaders['validation'], model, use_gpu)
-    print(f'Accuracy of the network on the validation images: {accuracy:.4f} %')
-    check_accuracy(data_loaders['test'], model, use_gpu)
-    print(f'Accuracy of the network on the test images: {accuracy:.4f} %')
+
+    accuracy, loss = check_accuracy(data_loaders['test'], model, criterion, use_gpu)
+    print(f'Accuracy of the network on the test images: {accuracy:.4f} %. Total loss was: {loss:.4f}')
     
     #save the model to a checkpoint
     print("saving the model to a checkpoint file...")

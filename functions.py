@@ -71,33 +71,37 @@ def do_deep_learning(model, trainloader, validationloader, criterion, optimizer,
             running_loss += loss.item()
 
             if steps % print_every == 0:
-                accuracy = check_accuracy(validationloader, model, use_gpu)
+                valid_accuracy, valid_loss = check_accuracy(validationloader, model, criterion, use_gpu)
                 print("Epoch: {}/{}... ".format(e+1, epochs),
                       "Loss: {:.4f}... ".format(running_loss/print_every),
-                     "Validation accuracy: {:.4f}".format(accuracy))
+					  "Valid loss: {:.4f}... ".format(valid_loss)
+                      "Valid accuracy: {:.4f}".format(valid_accuracy))
 
                 running_loss = 0
 
 #Define function for an accuracy check
-def check_accuracy(loader, model, use_gpu):   
+def check_accuracy(loader, model, criterion, use_gpu):   
     if use_gpu:
         device=torch.device('cuda')
     else:
         device=torch.device('cpu')
     correct = 0
     total = 0
+	running_loss = 0
     with torch.no_grad():
         for data in loader:
             images, labels = data
             labels = labels.to(device)
             images = images.to(device)
             outputs = model(images)
+			loss = criterion(outputs, labels)
+            running_loss += loss.item()
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     
     accuracy = 100 * correct / total
-    return accuracy
+    return accuracy, running_loss
 
 
 #Define the transformations for the image data

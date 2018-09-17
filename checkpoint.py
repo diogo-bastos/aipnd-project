@@ -13,7 +13,7 @@ def save_checkpoint(model, class_to_idx, save_directory, arch, hidden_units):
     torch.save(checkpoint, save_directory)
 
 def load_checkpoint(checkpoint_directory):
-    checkpoint = torch.load('checkpoint.pth')
+    checkpoint = torch.load(checkpoint_directory)
     model = create_model(checkpoint.architecture, checkpoint.hidden_units)
     model.load_state_dict(checkpoint.model_state_dict)
     model.class_to_idx = checkpoint.class_to_idx
