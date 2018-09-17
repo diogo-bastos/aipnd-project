@@ -21,7 +21,7 @@ def main():
     architecture = 'vgc11'
     hidden_units = 1000
     #parse values from the program's arguments
-    train_dir, valid_dir, test_dir, number_of_epochs, learning_rate, use_gpu, save_directory, architecture, hidden_units =           parse_constants_from_program_input_train(parser)
+    train_dir, valid_dir, test_dir, number_of_epochs, learning_rate, use_gpu, save_directory, architecture, hidden_units = parse_constants_from_program_input_train(parser)
     
     #Define your transforms for the training, validation, and testing sets
     transformations = define_transform_operations()
